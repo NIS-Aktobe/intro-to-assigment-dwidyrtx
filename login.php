@@ -3,7 +3,7 @@ include 'auth.php';
 redirectIfLoggedIn();
 
 $error = '';
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
     
@@ -17,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,32 +26,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Login</h1>
-    </header>
-    
-    <main class="container">
-        <section class="auth-form">
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2>Login</h2>
+            
             <?php if ($error): ?>
-                <div class="error"><?= $error ?></div>
+            <div class="error-message"><?= $error ?></div>
             <?php endif; ?>
-            
+
             <form method="POST">
-                <div class="forms-div">
+                <div class="form-group">
                     <input type="text" name="username" placeholder="Username" required>
-                    <input type="password" name="password" placeholder="Password" required>
-                    <button type="submit">Login</button>
                 </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="auth-btn">Login</button>
             </form>
-            
-            <p>Don't have an account? <a href="register.php">Register here</a></p>
-        </section>
-    </main>
 
-    <footer>
-        <p>© <?= date('Y') ?> Todo List</p>
-    </footer>
-
-    <script src="scripts.js"></script>
+            <div class="auth-link">
+                Don't have an account? <a href="register.php">Register here</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
