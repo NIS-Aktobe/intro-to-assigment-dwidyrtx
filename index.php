@@ -32,8 +32,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $stmt->execute();
 }
 
+// Complete task
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['complete'])) {
+    $id = $_POST['complete'];
+    $stmt = $conn->prepare("UPDATE todos SET status = 'completed' WHERE id = ? AND user_id = ?");
+    $stmt->bind_param("ii", $id, $_SESSION['user_id']);
+    $stmt->execute();
+}
+
 // Get tasks
-$stmt = $conn->prepare("SELECT * FROM todos WHERE user_id = ? ORDER BY created_at DESC");
+$stmt = $conn->prepare("SELECT * FROM todos WHERE user_id = ? ORDER BY status ASC, created_at DESC");
 $stmt->bind_param("i", $_SESSION['user_id']);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -65,12 +73,20 @@ $todos = $result->fetch_all(MYSQLI_ASSOC);
 
             <div class="task-list">
                 <?php foreach ($todos as $todo): ?>
-                <div class="task-item">
+                <div class="task-item <?= $todo['status'] === 'completed' ? 'completed' : '' ?>">
                     <span><?= htmlspecialchars($todo['task']) ?></span>
-                    <form method="POST">
-                        <input type="hidden" name="delete" value="<?= $todo['id'] ?>">
-                        <button type="submit" class="delete-btn">×</button>
-                    </form>
+                    <div class="task-actions">
+                        <form method="POST">
+                            <input type="hidden" name="complete" value="<?= $todo['id'] ?>">
+                            <button type="submit" class="complete-btn">
+                                <?= $todo['status'] === 'completed' ? '✓ Completed' : 'Mark Done' ?>
+                            </button>
+                        </form>
+                        <form method="POST">
+                            <input type="hidden" name="delete" value="<?= $todo['id'] ?>">
+                            <button type="submit" class="delete-btn">×</button>
+                        </form>
+                    </div>
                 </div>
                 <?php endforeach; ?>
             </div>
@@ -78,7 +94,7 @@ $todos = $result->fetch_all(MYSQLI_ASSOC);
     </main>
 
     <footer>
-        <p>Didar Zhuruntayev</p>
+        <p>© <?= date('Y') ?> Todo App</p>
     </footer>
 
     <script src="scripts.js"></script>
