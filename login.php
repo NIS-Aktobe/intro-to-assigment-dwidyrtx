@@ -1,6 +1,7 @@
 <?php
 include 'auth.php';
 redirectIfLoggedIn();
+
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
@@ -28,9 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="auth-container">
         <div class="auth-card">
             <h2>Login</h2>
+            
             <?php if ($error): ?>
             <div class="error-message"><?= $error ?></div>
             <?php endif; ?>
+
             <form method="POST">
                 <div class="form-group">
                     <input type="text" name="username" placeholder="Username" required>
@@ -40,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <button type="submit" class="auth-btn">Login</button>
             </form>
+
             <div class="auth-link">
                 Don't have an account? <a href="register.php">Register here</a>
             </div>
