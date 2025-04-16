@@ -182,3 +182,46 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+/* Add these new styles */
+.task-item.completed {
+    background: #f0fff4;
+    opacity: 0.8;
+}
+
+.task-item.completed span {
+    text-decoration: line-through;
+    color: #666;
+}
+
+.complete-btn {
+    background: #4CAF50 !important;
+    padding: 8px 20px !important;
+    border-radius: 20px !important;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+    font-size: 14px !important;
+}
+
+.complete-btn:hover {
+    background: #45a049 !important;
+    transform: scale(1.05);
+}
+
+.task-item.completed .complete-btn {
+    background: #888 !important;
+    cursor: default;
+    pointer-events: none;
+}
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.task-item.completed .delete-btn {
+    background: #ffebee;
+}
+
+/* Existing styles remain the same */
