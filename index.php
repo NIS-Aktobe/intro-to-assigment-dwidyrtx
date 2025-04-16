@@ -14,7 +14,6 @@ if (!isLoggedIn()) {
 
 include 'db.php';
 
-// Add task
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task'])) {
     $task = trim($_POST['task']);
     if (!empty($task)) {
@@ -24,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task'])) {
     }
 }
 
-// Delete task
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $id = $_POST['delete'];
     $stmt = $conn->prepare("DELETE FROM todos WHERE id = ? AND user_id = ?");
@@ -32,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $stmt->execute();
 }
 
-// Get tasks
 $stmt = $conn->prepare("SELECT * FROM todos WHERE user_id = ? ORDER BY created_at DESC");
 $stmt->bind_param("i", $_SESSION['user_id']);
 $stmt->execute();
