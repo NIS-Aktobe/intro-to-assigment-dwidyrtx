@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Real-time input validation
     document.querySelectorAll('input').forEach(input => {
         input.addEventListener('input', () => {
             if (input.checkValidity()) {
@@ -8,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Confirm before delete
     document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             if (!confirm('Are you sure you want to delete this task?')) {
@@ -15,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Prevent form resubmission
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
