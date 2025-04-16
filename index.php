@@ -1,15 +1,20 @@
 <?php
 include 'auth.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
     logoutUser();
     header("Location: login.php");
     exit;
 }
+
 if (!isLoggedIn()) {
     header("Location: login.php");
     exit;
 }
+
 include 'db.php';
+
+// Add task
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task'])) {
     $task = trim($_POST['task']);
     if (!empty($task)) {
@@ -18,12 +23,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task'])) {
         $stmt->execute();
     }
 }
+
+// Delete task
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $id = $_POST['delete'];
     $stmt = $conn->prepare("DELETE FROM todos WHERE id = ? AND user_id = ?");
     $stmt->bind_param("ii", $id, $_SESSION['user_id']);
     $stmt->execute();
 }
+
+// Get tasks
 $stmt = $conn->prepare("SELECT * FROM todos WHERE user_id = ? ORDER BY created_at DESC");
 $stmt->bind_param("i", $_SESSION['user_id']);
 $stmt->execute();
@@ -67,9 +76,11 @@ $todos = $result->fetch_all(MYSQLI_ASSOC);
             </div>
         </div>
     </main>
+
     <footer>
         <p>Didar Zhuruntayev</p>
     </footer>
+
     <script src="scripts.js"></script>
 </body>
 </html>
