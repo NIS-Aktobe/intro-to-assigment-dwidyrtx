@@ -10,10 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Confirm before delete
+    // Confirm before actions
     document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             if (!confirm('Are you sure you want to delete this task?')) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    document.querySelectorAll('.complete-btn:not(.completed)').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            if (!confirm('Mark this task as completed?')) {
                 e.preventDefault();
             }
         });
